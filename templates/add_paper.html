@@ -1,0 +1,27 @@
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>Dashboard</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    </head>
+    <body>
+        <h1 id="grid-head" class='centered'>{{ title | title }}</h1>
+        <form id="grid-body" action="{{ url_for('literature.new') }}" method="post">
+            <p><input class='marg-bot w100' type="text" name="title" placeholder='title'></p>
+            <p><input class='marg-bot w100' type="text" name="authors" placeholder='authors'></p>
+            <p><input class='marg-bot w100' type="text" name="year" placeholder='year'></p>
+            <p><input class='marg-bot w100' type="text" name="journal" placeholder='journal'></p>
+            <p><input class='marg-bot w100' type="text" name="citation" placeholder='citation'></p>
+            <p><input class='marg-bot w100' type="text" name="tags" placeholder='tags'></p>
+            <p><input class='marg-bot w100' type="text" name="bullet1" placeholder='bullet1'></p>
+            <p><input class='marg-bot w100' type="text" name="bullet2" placeholder='bullet2'></p>
+            <p><input class='marg-bot w100' type="text" name="bullet3" placeholder='bullet3'></p>
+            <p><input class='marg-bot w100' type="text" name="bullet4" placeholder='bullet4'></p>
+            <p><input class='marg-bot w100' type="text" name="bullet5" placeholder='bullet5'></p>
+            <input type="submit">
+        </form>
+        <div id="grid-foot"><a href="/help">HELP</a></div>
+    </body>
+</html>
+

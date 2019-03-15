@@ -91,9 +91,9 @@ a:hover {
     background: rgb(245,245,245);
     border: 1px solid rgba(0,0,0,0.2);
     box-shadow: 1px 1px 3px rgba(0,0,0,0.2);
-    border-radius: 1em;
-    margin: 1em;
-    padding: 1em;
+    border-radius: 0.5em;
+    margin: 0.5em;
+    padding: 0.5em;
 }
 
 .card-head {
@@ -106,3 +106,38 @@ a:hover {
     color: rgba(0,0,0,0.5);
     font-variant: small-caps;
 }
+
+.flex {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.flex input {
+    margin-left: 1em;
+}
+
+.card {
+    width: 40%;
+}
+
+.pad-bot {
+    padding-bottom: 0.5em;
+}
+
+.marg-bot {
+    margin-bottom: 0.5em;
+}
+
+.border-bot {
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+}
+
+.w100 {
+     width: 100%; 
+ }
+
+ .warning {
+    font-variant: small-caps;
+    color: red;
+ }
