@@ -5,7 +5,7 @@ import os
 from flask import render_template, request, Blueprint
 
 BP_RESEARCH = Blueprint("research", __name__, template_folder="templates")
-RESEARCH_FILE = os.path.join(os.environ["DATADIR"], "research-summaries.json")
+RESEARCH_FILE = os.path.join(os.environ["DATADIR"], "uos-research.json")
 
 
 class Research:

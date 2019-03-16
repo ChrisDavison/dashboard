@@ -1,0 +1,24 @@
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>Dashboard</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    </head>
+    <body>
+        <h1 id="grid-head" class='centered'>{{ title | title }}</h1>
+        <form id="grid-body" action="{{ url_for('games.new') }}" method="post">
+            <table>
+                <tr> <td><input class="w100" type="text" name="name" placeholder="Name"></td></tr>
+                <tr> <td><input class="w100" type="text" name="platform" placeholder="Platform"></td></tr>
+                <tr> <td><input class="w100" type="text" name="status" placeholder="Status"></td></tr>
+                <tr> <td><input class="w100" type="text" name="multiplayer" placeholder="Multiplayer"></td></tr>
+                <tr> <td><input class="w100" type="text" name="comments" placeholder="Comments"></td></tr>
+                <tr> <td><input class="w100" type="text" name="released" placeholder="Released"></td></tr>
+                            </table>
+            <input type="submit">
+        </form>
+        <div id="grid-foot"><a href="/help">HELP</a></div>
+    </body>
+</html>
+
