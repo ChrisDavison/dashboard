@@ -8,24 +8,13 @@
     <body>
         <h1 id="grid-head" class='centered'>{{ title | title }}</h1>
         <form id="grid-body" action="{{ url_for('books.new') }}" method="post">
-            <table>
-                <tr>
-                    <td><strong>Date</strong></td>
-                    <td><input type="text" name="date"></br></td>
-                </tr>
-                <tr>
-                    <td><strong>Cost</strong></td>
-                    <td><input type="number" name="cost" min="0" step="0.5"></br></td>
-                </tr>
-                <tr>
-                    <td><strong>Description</strong></td>
-                    <td><input type="text" name="description"></br></td>
-                </tr>
-            <tr>
-                <td><strong>Category</strong></td>
-                <td><input type="text" name="category"></br></td>
-            </tr>
-            </table>
+            <div class="flex">
+                <input class="w100 marg-bot" name="title" placeholder="title">
+                <input class="w100 marg-bot" name="author" placeholder="author">
+                <input class="w100 marg-bot" name="genre" placeholder="genre">
+                <input class="w100 marg-bot" name="status" placeholder="status">
+                <input class="w100 marg-bot" name="read" placeholder="read">
+            </div>
             <input type="submit">
         </form>
         <div id="grid-foot"><a href="/help">HELP</a></div>
