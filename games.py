@@ -44,10 +44,10 @@ def game_list():
 @BP_GAMES.route("/games/new", methods=["POST"])
 def new():
     """Add a new game, from the /games/add/ endpoint, to the file"""
-    games = games(GAMES_FILE)
+    games = Games(GAMES_FILE)
     games.append(
         {
-            "Name": request.form["title"],
+            "Name": request.form["name"],
             "Platform": request.form["platform"],
             "Status": request.form["status"],
             "Multiplayer": request.form["multiplayer"],
@@ -59,7 +59,7 @@ def new():
     return render_template(
         "games.html",
         games=games.data[-10:],
-        extra_pre=f"Added: {request.form['Name']} ({request.form['Platform']})",
+        extra_pre=f"Added: {request.form['name']} ({request.form['platform']})",
     )
 
 
