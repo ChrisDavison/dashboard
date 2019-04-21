@@ -20,20 +20,26 @@ def book_list():
     genres = cursor.fetchall()
     out = []
     for genre in genres:
-        cursor.execute(f"""
+        cursor.execute(
+            f"""
             select * from reading
             where genre='{genre[0]}'
-            order by title""")
+            order by title"""
+        )
         data = cursor.fetchall()
         if data:
-            out.extend([{
-                'Title': title,
-                'Author': author,
-                'Genre': genre,
-                'Status': status,
-                'Read': read}
-                for (_, title, author, genre, status, read) in data
-            ])
+            out.extend(
+                [
+                    {
+                        "Title": title,
+                        "Author": author,
+                        "Genre": genre,
+                        "Status": status,
+                        "Read": read,
+                    }
+                    for (_, title, author, genre, status, read) in data
+                ]
+            )
     db.close()
     return render_template("books.html", books=out)
 
@@ -43,7 +49,8 @@ def new():
     """Add a new book, from the /books/add/ endpoint, to the file"""
     db = sqlite3.connect(DB_PATH)
     cursor = db.cursor()
-    cursor.execute(f"""
+    cursor.execute(
+        f"""
         INSERT INTO reading(title, author, genre, status, read)
         VALUES (
             '{request.form["title"]}',
@@ -51,7 +58,8 @@ def new():
             '{request.form["genre"]}',
             '{request.form["status"]}',
             '{request.form["read"]}'
-        )""")
+        )"""
+    )
     db.commit()
     db.close()
 

@@ -20,20 +20,19 @@ def finances():
     total = cursor.fetchone()[0]
 
     cursor.execute("""select distinct category from finances""")
-    categories = ', '.join([c[0] for c in cursor.fetchall()])
+    categories = ", ".join([c[0] for c in cursor.fetchall()])
 
-    cursor.execute("""select date, description, category, cost
+    cursor.execute(
+        """select date, description, category, cost
         FROM finances
         order by date, category, description
-    """)
-    purchases = [{
-            'date': date,
-            'description': description,
-            'category': category,
-            'cost': cost
-        }
-        for (date, description, category, cost) in cursor.fetchall()]
-    start = purchases[0]['date']
+    """
+    )
+    purchases = [
+        {"date": date, "description": description, "category": category, "cost": cost}
+        for (date, description, category, cost) in cursor.fetchall()
+    ]
+    start = purchases[0]["date"]
     total_str = markdown(f"**£{total:.0f}** spent on {categories} since *{start}*")
     return render_template("finances.html", finances=purchases, extra_pre=total_str)
 
@@ -43,14 +42,16 @@ def new():
     """Create a new finance purchase, and write to json"""
     db = sqlite3.connect(DB_PATH)
     cursor = db.cursor()
-    cursor.execute(f"""
+    cursor.execute(
+        f"""
         INSERT INTO finances(date, description, category, cost)
         VALUES (
             '{request.form["date"]}',
             '{request.form["description"]}',
             '{request.form["category"]}',
             '{request.form["cost"]}'
-        )""")
+        )"""
+    )
     db.commit()
     db.close()
 
