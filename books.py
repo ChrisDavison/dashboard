@@ -8,7 +8,6 @@ from flask import request, render_template, Blueprint
 
 
 BP_BOOKS = Blueprint("books", __name__, template_folder="templates")
-BOOKS_FILE = os.path.join(os.environ["DATADIR"], "reading-list.json")
 DB_PATH = str((Path(os.environ["DATADIR"]) / "data.db").resolve())
 
 
