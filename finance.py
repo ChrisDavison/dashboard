@@ -1,63 +1,60 @@
 """Routes for my purchase history"""
 import json
 import os
+import sqlite3
+from pathlib import Path
 
 from flask import render_template, request, Blueprint
 from markdown import markdown
 
 BP_FINANCE = Blueprint("finance", __name__, template_folder="templates")
-PURCHASE_FILE = os.path.join(os.environ["DATADIR"], "finances.json")
-
-class Purchases:
-    """Purchases represents a json file of expenditures"""
-
-    def __init__(self, filename):
-        """Initialise a purchase list, loading in a file"""
-        self.filename = filename
-        self.data = list(
-            sorted(json.load(open(self.filename)), key=lambda x: x["date"])
-        )
-
-    def write(self):
-        """If we have data, write it to file"""
-        if self.data:
-            json.dump(self.data, open(self.filename, "w"), indent=2)
-        else:
-            print("NO DATA")
-
-    def append(self, item):
-        """Add an item to the internal data"""
-        self.data.append(item)
+DB_PATH = str((Path(os.environ["DATADIR"]) / "data.db").resolve())
 
 
 @BP_FINANCE.route("/finance/")
 def finances():
     """Return all purchases"""
-    purchases = Purchases(PURCHASE_FILE).data
-    total = sum([f["cost"] for f in purchases])
-    categories = ", ".join(set(f["category"] for f in purchases))
-    total_str = markdown(f"**Total: £{total:.0f}**\nCategories: {categories}")
+    db = sqlite3.connect(DB_PATH)
+    cursor = db.cursor()
+    cursor.execute("""select sum(cost) from finances""")
+    total = cursor.fetchone()[0]
+
+    cursor.execute("""select distinct category from finances""")
+    categories = ', '.join([c[0] for c in cursor.fetchall()])
+
+    cursor.execute("""select date, description, category, cost
+        FROM finances
+        order by date, category, description
+    """)
+    purchases = [{
+            'date': date,
+            'description': description,
+            'category': category,
+            'cost': cost
+        }
+        for (date, description, category, cost) in cursor.fetchall()]
+    start = purchases[0]['date']
+    total_str = markdown(f"**£{total:.0f}** spent on {categories} since *{start}*")
     return render_template("finances.html", finances=purchases, extra_pre=total_str)
 
 
 @BP_FINANCE.route("/finance/new", methods=["POST"])
 def new():
     """Create a new finance purchase, and write to json"""
-    purchases = Purchases(PURCHASE_FILE)
-    purchases.append(
-        {
-            "date": request.form["date"],
-            "description": request.form["description"],
-            "category": request.form["category"],
-            "cost": float(request.form["cost"]),
-        }
-    )
-    purchases.write()
-    return render_template(
-        "finances.html",
-        finances=purchases.data[-10:],
-        extra_pre="<strong>Last 10</strong>",
-    )
+    db = sqlite3.connect(DB_PATH)
+    cursor = db.cursor()
+    cursor.execute(f"""
+        INSERT INTO finances(date, description, category, cost)
+        VALUES (
+            '{request.form["date"]}',
+            '{request.form["description"]}',
+            '{request.form["category"]}',
+            '{request.form["cost"]}'
+        )""")
+    db.commit()
+    db.close()
+
+    return finances()
 
 
 @BP_FINANCE.route("/finance/add")
