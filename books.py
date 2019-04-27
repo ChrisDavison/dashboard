@@ -22,7 +22,7 @@ def book_list():
     for genre in genres:
         cursor.execute(
             f"""
-            select * from reading
+            select title, author, genre, status from reading
             where genre='{genre[0]}'
             order by title"""
         )
@@ -34,10 +34,9 @@ def book_list():
                         "Title": title,
                         "Author": author,
                         "Genre": genre,
-                        "Status": status,
-                        "Read": read,
+                        "Status": status
                     }
-                    for (_, title, author, genre, status, read) in data
+                    for (title, author, genre, status) in data
                 ]
             )
     db.close()
@@ -56,8 +55,7 @@ def new():
             '{request.form["title"]}',
             '{request.form["author"]}',
             '{request.form["genre"]}',
-            '{request.form["status"]}',
-            '{request.form["read"]}'
+            '{request.form["status"]}'
         )"""
     )
     db.commit()

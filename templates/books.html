@@ -24,7 +24,6 @@
             {% for book in books %}
                 <tr class='book-entry'>
                     <td>
-                        {%if book['Read'] %} <strong>{{ book['Read'] }}</strong> {% endif %}
                         {{ book['Title'] }}{%if book['Author'] %} <br><em>{{ book['Author'] }}{% endif %}</em>
                     </td>
                     <td>{{ book['Genre'] }}</td>
@@ -39,4 +38,3 @@
         <script type="text/javascript" src="{{ url_for('static', filename='book_filter.js') }}"></script>
         </body>
 </html>
-
